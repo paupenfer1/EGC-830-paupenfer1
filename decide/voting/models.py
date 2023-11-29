@@ -39,8 +39,8 @@ class Voting(models.Model):
     pub_key = models.OneToOneField(Key, related_name='voting', blank=True, null=True, on_delete=models.SET_NULL)
     auths = models.ManyToManyField(Auth, related_name='votings')
 
-    tally = JSONField(blank=True, null=True)
-    postproc = JSONField(blank=True, null=True)
+    tally = models.JSONField()
+    postproc = models.JSONField()
 
     def create_pubkey(self):
         if self.pub_key or not self.auths.count():
@@ -118,6 +118,8 @@ class Voting(models.Model):
 
         self.postproc = postp
         self.save()
+        
+    
 
     def __str__(self):
         return self.name
